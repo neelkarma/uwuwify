@@ -6,11 +6,10 @@ pub fn uwuwify(input: &str) -> String {
     let mut prev = None;
 
     for char in input.chars() {
-        match char {
-            'L' | 'R' => out.push('W'),
-            'l' | 'r' => out.push('w'),
-            // No -> Nyo, only works if first letter is M or N
-            'O' | 'o' if prev.map_or(false, |c| "MmNn".contains(c)) => out.push_str("yo"),
+        match (prev, char) {
+            (_, 'L' | 'R') => out.push('W'),
+            (_, 'l' | 'r') => out.push('w'),
+            (Some('M' | 'm' | 'N' | 'n'), 'O' | 'o') => out.push_str("yo"),
             _ => out.push(char),
         }
 
