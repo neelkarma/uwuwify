@@ -2,18 +2,24 @@
 ///
 /// Returns an owned string with the uwuwified text.
 pub fn uwuwify(input: &str) -> String {
-    let mut out = String::new();
-    let mut prev = None;
+    if input.len() == 0 {
+        return String::new();
+    }
 
-    for char in input.chars() {
+    let mut out = String::new();
+    let mut prev = input.chars().nth(0).unwrap();
+
+    out.push(prev);
+
+    for char in input.chars().skip(1) {
         match (prev, char) {
             (_, 'L' | 'R') => out.push('W'),
             (_, 'l' | 'r') => out.push('w'),
-            (Some('M' | 'm' | 'N' | 'n'), 'O' | 'o') => out.push_str("yo"),
+            ('M' | 'm' | 'N' | 'n', 'O' | 'o') => out.push_str("yo"),
             _ => out.push(char),
         }
 
-        prev = Some(char);
+        prev = char;
     }
 
     out
